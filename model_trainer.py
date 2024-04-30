@@ -5,7 +5,6 @@ import numpy as np
 face_rec_algo = 'haarcascade_frontalface_default.xml'
 datasets_folder = 'dataset'
 (images, labels, names, id) = ([], [], {}, 0)
-camera = cv2.VideoCapture(1)
 
 for (subdir, dirs, files) in os.walk(datasets_folder):
     for subdir in dirs:
@@ -19,13 +18,17 @@ for (subdir, dirs, files) in os.walk(datasets_folder):
         id += 1
 
 (images, labels) = [np.array(lis) for lis in [images, labels]]
-width, height = 220, 190
-facecascade = cv2.CascadeClassifier(face_rec_algo)
+(width, height) = (200, 200)
+
 model = cv2.face.LBPHFaceRecognizer_create()
 # cv2.face.FisherFaceRecognizer_create()
 
+facecascade = cv2.CascadeClassifier(face_rec_algo)
+
 model.train(images, labels)
+
 count = 0
+camera = cv2.VideoCapture(1)
 while True:
     (_, img) = camera.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
