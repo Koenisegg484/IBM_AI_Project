@@ -23,3 +23,14 @@ Building a command line MENU for the following funtionings
 
 """
 
+import create_datasets
+import model_trainer
+
+menu = """
+
+This is an ML Application which has been created to take attendance of an ongoing class, without disrupting the flow between teachers and students.
+It has the following functions :\n
+
+
+
+"""

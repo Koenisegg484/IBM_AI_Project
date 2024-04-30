@@ -4,7 +4,6 @@ class Student:
     def __init__(self,firstname, lastname, age, email):
         self.firstname = str.capitalize(firstname)
         self.lastname = str.capitalize(lastname)
-        self.dbname = str.lower(firstname+lastname)
         self.age = age
         self.email = email
 
@@ -36,15 +35,6 @@ for i in range(0, total_students):
     Students.append(stdnt)
 
 cls1 = Class_of_students(dept, year, section, Students)
-
-# Print statements to check the data going in the classes
-# print(cls1.department)
-# print(cls1.total)
-# for std in cls1.students:
-#     print(std.firstname)
-#     print(std.lastname)
-#     print(std.dbname)
-#     print()
 
 filename = cls1.department + cls1.section + ".csv"
 fields = ['Name', 'Branch', 'Year', 'Section', 'Email', 'Age']
