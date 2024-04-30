@@ -1,6 +1,7 @@
 import cv2
 import os
 import numpy as np
+import pickle
 
 face_rec_algo = 'haarcascade_frontalface_default.xml'
 datasets_folder = 'dataset'
@@ -27,6 +28,15 @@ facecascade = cv2.CascadeClassifier(face_rec_algo)
 
 model.train(images, labels)
 
+with open("facial_recog_model.pkl", "wb") as modelfile:
+    pickle.dump(model, modelfile)
+    print(f"Dumped the model into : facial_recog_model.pkl")
+
+
+
+with open('facial_recog_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+
 count = 0
 camera = cv2.VideoCapture(1)
 while True:
@@ -45,7 +55,7 @@ while True:
         else:
             print("The faces did not match...\nUnkown face")
             count += 1
-            if (count >150):
+            if (count > 150):
                 cv2.putText(img, "Unknown face", (x-10, y-10), cv2.putText(img, '%s-%.0f' % (names[prediction[0]], prediction[1]), (x-10, y-20), cv2.FONT_HERSHEY_SCRIPT_COMPLEX, float(255), 2), (255,255, 0), 2)
                 cv2.imwrite("unknown.png", img)
                 count = 0

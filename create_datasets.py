@@ -1,8 +1,8 @@
 import cv2
-# import numpy as np
-# import imutils
 import pandas as pd
 import os
+# import numpy as np
+# import imutils
 # from time import sleep
 
 face_detection_algo = 'haarcascade_frontalface_default.xml'
@@ -19,14 +19,15 @@ camera = cv2.VideoCapture(1)
 student_names = []
 
 df = pd.read_csv('BTECH CSEU.csv')
-for index, row in df.iterrows():
-    name = str.lower(row.Name)
-    name = str.replace(name, " ", "")
-    student_names.append(name)
-for std in student_names:
-    print(std)
 
-print("Creating database for each student for model training .....")
+# for index, row in df.iterrows():
+#     name = str.lower(row.Name)
+#     name = str.replace(name, " ", "")
+#     student_names.append(name)
+# for std in student_names:
+#     print(std)
+
+print("Creating database for each student for model training .....\n\n\n")
 for i, student in enumerate(student_names):
 
     print(f"Creating database for {student}")

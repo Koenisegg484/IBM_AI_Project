@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 imutils = "*"
 pandas = "*"
+picle = "*"
+joblib = "*"
 
 [dev-packages]
 
