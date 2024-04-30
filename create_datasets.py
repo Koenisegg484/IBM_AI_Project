@@ -20,10 +20,10 @@ student_names = []
 
 df = pd.read_csv('BTECH CSEU.csv')
 
-# for index, row in df.iterrows():
-#     name = str.lower(row.Name)
-#     name = str.replace(name, " ", "")
-#     student_names.append(name)
+for index, row in df.iterrows():
+    name = str.capitalize(row.Name)
+    name = str.replace(name, " ", "_")
+    student_names.append(name)
 # for std in student_names:
 #     print(std)
 
