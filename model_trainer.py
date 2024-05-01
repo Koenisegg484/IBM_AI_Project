@@ -3,6 +3,8 @@ import os
 import numpy as np
 import pickle
 import datetime
+import csv
+import pandas as pd
 
 face_rec_algo = 'haarcascade_frontalface_default.xml'
 
@@ -22,7 +24,6 @@ def train_model():
             id += 1
 
     (images, labels) = [np.array(lis) for lis in [images, labels]]
-    (width, height) = (200, 200)
 
     model = cv2.face.LBPHFaceRecognizer_create()
     # cv2.face.FisherFaceRecognizer_create()
@@ -35,7 +36,7 @@ def train_model():
 
 
 def take_attendence():
-        
+    model = None
     with open('facial_recog_model.pkl', 'rb') as f:
         model = pickle.load(f)
 
@@ -84,8 +85,37 @@ def take_attendence():
         key = cv2.waitKey(1)
         if key == 113:
             break
-        
+
+        # Creating report of the present student
+        report = f"""Date : {datetime.date.today().strftime("%d-%m-%Y")}\nTotal present out of {len(names)} : {len(present_students)}\n"""
+        print(report)
+        for ind, stdntt in enumerate(present_students):
+            print(f"{ind}. {stdntt}")
+        camera.release()
+        cv2.destroyAllWindows()
         return present_students
 
     camera.release()
     cv2.destroyAllWindows()
+
+def attendence_report(present_students, all_students):
+    attendance_sheet = 'BTECH CSEU Attendance.csv'
+    if not os.path.exists(attendance_sheet):
+        with open(attendance_sheet, 'w') as attendance_sheet:
+            writer = csv.DictWriter(attendance_sheet, fieldnames=["Sr. no", "Student Names"])
+            writer.writeheader()
+            for i, st in enumerate(all_students):
+                row = {
+                    'Sr. no' : i+1,
+                    'Student Names' : st
+                }
+                writer.writerow(row)
+    else:
+        df = pd.read_csv(attendance_sheet)
+        today = str(datetime.date.today().strftime("%D%M%Y"))
+        df[today] = 'A'
+        for index, row in df.iterrows():
+            if (row['Student Names']) in present_students:
+                df.at[index, today] = 'P'
+
+        df.to_csv(attendance_sheet, index=False)

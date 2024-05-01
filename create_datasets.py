@@ -4,7 +4,7 @@ import os
 from time import sleep
 
 
-def created_image_database():
+def create_image_database():
 
     camera = cv2.VideoCapture(0)
 
