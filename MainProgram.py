@@ -85,7 +85,7 @@ while True:
         continue
     elif choice == '6':
         print("\n###Exitting application###\n")
-        exit
+        break
     else:
         print("Invalid choice. Please enter a valid menu option.")
 

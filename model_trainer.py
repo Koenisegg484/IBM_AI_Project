@@ -1,7 +1,6 @@
 import cv2
 import os
 import numpy as np
-import pickle
 import datetime
 import csv
 import pandas as pd
@@ -25,20 +24,25 @@ def train_model():
 
     (images, labels) = [np.array(lis) for lis in [images, labels]]
 
-    model = cv2.face.LBPHFaceRecognizer_create()
-    # cv2.face.FisherFaceRecognizer_create()
+    # model = cv2.face.LBPHFaceRecognizer_create()
+    model = cv2.face.FisherFaceRecognizer_create()
 
     model.train(images, labels)
 
-    with open("facial_recog_model.pkl", "wb") as modelfile:
-        pickle.dump(model, modelfile)
-        print(f"Dumped the model into : facial_recog_model.pkl")
+    model.save("facial_recog_model.xml")
+
+    # with open("facial_recog_model.pkl", "wb") as modelfile:
+    #     pickle.dump(model, modelfile)
+    #     print(f"Dumped the model into : facial_recog_model.pkl")
 
 
 def take_attendence():
     model = None
-    with open('facial_recog_model.pkl', 'rb') as f:
-        model = pickle.load(f)
+    # with open('facial_recog_model.pkl', 'rb') as f:
+    #     model = pickle.load(f)
+
+    model = cv2.face.FisherFaceRecognizer_create()
+    model.load("facial_recog_model.xml")
 
     names = []
     present_students = []
@@ -49,7 +53,7 @@ def take_attendence():
     facecascade = cv2.CascadeClassifier(face_rec_algo)
 
     count = 0
-    camera = cv2.VideoCapture(1)
+    camera = cv2.VideoCapture(0)
     unknowns_found = 0
     while True:
         (_, img) = camera.read()

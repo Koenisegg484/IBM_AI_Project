@@ -10,7 +10,7 @@ def create_image_database():
 
     student_names = []
 
-    df = pd.read_csv('BTECH CSEU.csv')
+    df = pd.read_csv('BTECHU.csv')
 
     for index, row in df.iterrows():
         name = str.capitalize(row.Name)
