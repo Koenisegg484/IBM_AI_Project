@@ -30,6 +30,7 @@ def create_class():
         lname = input("Enter last name of the student : ")
         age = int(input("Enter age of the student : "))
         email = (input("Enter email of the student : "))
+        print(f"\nNow for Student number : {i+1}\n\n")
 
         stdnt = Student(fname, lname, age, email)
         Students.append(stdnt)

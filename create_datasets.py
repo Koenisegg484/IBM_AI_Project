@@ -32,11 +32,11 @@ def create_image_database():
         count = 1
 
         while True:
-            if count>=1 and count<20:
+            if count==1:
                 print("Please look at the camera...")
-            if count>=20 and count<40:
+            if count==20:
                 print("Please look towards your right side...")
-            if count>=40 and count<60:
+            if count==40:
                 print("Please look towards your left side...")
             
             # Reading input from the camera
@@ -57,13 +57,13 @@ def create_image_database():
                     
                     # Resize the cropped region
                     resized = cv2.resize(res0, (200, 200))
-                    img_name = path + "/" + student_names[0] + str(count) + ".jpg"
+                    img_name = path + "/" + student + str(count) + ".jpg"
                     cv2.imwrite(img_name, resized)
                     count = count + 1
             
             # Parametres for the imshow and putting text function
-            font = cv2.FONT_HERSHEY_COMPLEX
-            fontscale = 1
+            font = cv2.FONT_HERSHEY_PLAIN
+            fontscale = 2
             color = (255, 255, 0)
             coord = (30, 30)
             thickness = 1
@@ -78,7 +78,7 @@ def create_image_database():
             cv2.imshow("Creating your face's database", img)
             cv2.putText(img,texttoput, coord, font, fontscale, color, thickness, cv2.LINE_AA)
 
-            if (count == 20 or count == 40 or count == 1):
+            if (count == 20 or count == 40):
                 sleep(5)
 
             key = cv2.waitKey(1)
@@ -87,7 +87,7 @@ def create_image_database():
 
             if count >= 61:
                 break
-        user_input = input("Press any key to continue or enter 'q' to quit: ")
+        user_input = input("\n\n\nCall the next student and press any key to continue or enter 'q' to quit: ")
         if user_input == 'q':
             break
         if i < len(student_names)-1:
