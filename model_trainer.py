@@ -49,9 +49,10 @@ def take_attendence():
     facecascade = cv2.CascadeClassifier(face_rec_algo)
 
     count = 0
+    closer = 0
     camera = cv2.VideoCapture(1)
     unknowns_found = 0
-    while True:
+    while closer < 200:
         (_, img) = camera.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces =  facecascade.detectMultiScale(gray, 1.3, 5)
@@ -63,12 +64,15 @@ def take_attendence():
             if prediction[1]<800:
                 textpmImg = str.capitalize(str.replace(names[prediction[0]], "_", " "))
                 cv2.putText(img, textpmImg, (x, y-20), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,  0.5, (0, 255, 0), 2)
-                present_students.append(textpmImg)
+                if textpmImg in present_students:
+                    continue
+                else:
+                    present_students.append(textpmImg)
                 count = 0
             else:
                 print("The faces did not match...\nUnkown face")
                 count += 1
-                if (count > 150):
+                if (count > 100):
                     cv2.putText(img, "Unknown person", (x-10, y-20), cv2.FONT_HERSHEY_SCRIPT_COMPLEX, float(255), 2, (255,255, 0), 2)
                     # cv2.putText(img, '%s-%.0f' % (names[prediction[0]], prediction[1]), (x-10, y-20), cv2.FONT_HERSHEY_SCRIPT_COMPLEX, float(255), 2, (255,255, 0), 2)
 
@@ -86,17 +90,14 @@ def take_attendence():
         if key == 113:
             break
 
-        # Creating report of the present student
-        report = f"""Date : {datetime.date.today().strftime("%d-%m-%Y")}\nTotal present out of {len(names)} : {len(present_students)}\n"""
-        print(report)
-        for ind, stdntt in enumerate(present_students):
-            print(f"{ind}. {stdntt}")
-        camera.release()
-        cv2.destroyAllWindows()
-        return present_students
-
+    # Creating report of the present student
+    report = f"""Date : {datetime.date.today().strftime("%d-%m-%Y")}\nTotal present out of {len(names)} : {len(present_students)}\n"""
+    print(report)
+    for ind, stdntt in enumerate(present_students):
+        print(f"{ind}. {stdntt}")
     camera.release()
     cv2.destroyAllWindows()
+    return present_students
 
 def attendence_report(present_students, all_students):
     attendance_sheet = 'BTECH CSEU Attendance.csv'
@@ -110,12 +111,12 @@ def attendence_report(present_students, all_students):
                     'Student Names' : st
                 }
                 writer.writerow(row)
-    else:
-        df = pd.read_csv(attendance_sheet)
-        today = str(datetime.date.today().strftime("%D%M%Y"))
-        df[today] = 'A'
-        for index, row in df.iterrows():
-            if (row['Student Names']) in present_students:
-                df.at[index, today] = 'P'
+    
+    df = pd.read_csv(attendance_sheet)
+    today = str(datetime.date.today().strftime("%D%M%Y"))
+    df[today] = 'A'
+    for index, row in df.iterrows():
+        if (row['Student Names']) in present_students:
+            df.at[index, today] = 'P'
 
-        df.to_csv(attendance_sheet, index=False)
+    df.to_csv(attendance_sheet, index=False)

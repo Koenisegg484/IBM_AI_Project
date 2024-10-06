@@ -64,28 +64,27 @@ def report_generator():
 # Define the menu options and corresponding functions
 # Main loop
 print_menu()
-while True:
-    choice = input("Enter your choice: ")
+choice = int(input("Enter your choice: "))
+while choice != 6:
     
     # Check if the choice is a valid menu option
-    if choice == '1':
+    if choice == 1:
         take_student_inputs.create_class()
-        continue
-    elif choice == '2':
+
+    elif choice == 2:
         create_datasets.create_image_database(),
-        continue        
-    elif choice == '3':
+     
+    elif choice == 3:
         model_trainer.train_model(),
-        continue
-    elif choice == '4':
+
+    elif choice == 4:
         report_generator(),
-        continue
-    elif choice == '5':
+
+    elif choice == 5:
         print_menu(),
-        continue
-    elif choice == '6':
-        print("\n###Exitting application###\n")
-        exit
+
     else:
         print("Invalid choice. Please enter a valid menu option.")
 
+    choice = int(input("Enter your choice: "))
+print("\n###Exitting application###\n")

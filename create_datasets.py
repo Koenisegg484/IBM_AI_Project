@@ -13,8 +13,7 @@ def create_image_database():
     df = pd.read_csv('BTECH CSEU.csv')
 
     for index, row in df.iterrows():
-        name = str.capitalize(row.Name)
-        name = str.replace(name, " ", "_")
+        name = str.replace(row.Name, " ", "_")
         student_names.append(name)
 
     print("Creating database for each student for model training .....\n\n")
