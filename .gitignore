@@ -1,4 +1,7 @@
 *.csv
 datasets/
+dataset/
 *.jpg
 temp.py
+*.pkl
+*.xml
